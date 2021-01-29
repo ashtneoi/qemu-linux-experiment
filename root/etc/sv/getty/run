@@ -1,0 +1,2 @@
+#!/bin/sh
+getty 0 /dev/console

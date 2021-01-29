@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+if [[ $$ -ne 1 ]]; then
+    echo >&2 "error: my PID isn't 1"
+    exit 1
+fi
+
+mount -t proc proc /proc
+mount -o remount,rw,noatime,nosuid /
+
+mount -t tmpfs tmpfs /run
+
+dmesg -n 2  # alert
+svinit &
+wait
+sulogin /dev/console
