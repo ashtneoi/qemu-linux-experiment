@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+mkdir /run/sv
+find /etc/sv -mindepth 1 -maxdepth 1 -exec sh -c '
+    set -eu
+
+    for path do
+        name="$(basename "$path")"
+        mkdir "/run/sv/$name"
+        ln -s "$path/"* "/run/sv/$name"
+    done
+' - {} +
+exec runsvdir -P /run/sv/

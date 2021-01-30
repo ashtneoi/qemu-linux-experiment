@@ -10,6 +10,7 @@ mount -t proc proc /proc
 mount -o remount,rw,noatime,nosuid /
 
 mount -t tmpfs tmpfs /run
+mount -t sysfs sysfs /sys
 
 dmesg -n 2  # alert
 svinit &
