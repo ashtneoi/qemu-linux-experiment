@@ -6,13 +6,20 @@ if [[ $$ -ne 1 ]]; then
     exit 1
 fi
 
-mount -t proc proc /proc
-mount -o remount,rw,noatime,nosuid /
+dmesg -n 2  # alert
 
+echo "$(date -Is) Mounting special filesystems..."
+mount -t proc proc /proc
 mount -t tmpfs tmpfs /run
 mount -t sysfs sysfs /sys
+mount -t tmpfs tmpfs /tmp
+mkdir /dev/pts
+mount -t devpts devpts /dev/pts
 
-dmesg -n 2  # alert
+echo "$(date -Is) Remounting root filesystem read-write..."
+mount -o remount,rw,noatime,nosuid /
+
+echo "$(date -Is) Starting system services..."
 svinit &
 wait
 sulogin /dev/console

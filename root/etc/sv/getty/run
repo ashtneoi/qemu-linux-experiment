@@ -1,2 +1,2 @@
 #!/bin/sh
-getty 0 /dev/console
+getty -L 0 /dev/console
